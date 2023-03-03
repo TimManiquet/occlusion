@@ -54,13 +54,13 @@ def occlude(
     
     # name the output paths
     if deletion:
-        del_outdir = r'./output/occlusion/deletion/'
+        del_outdir = r'./output/deletion/'
         listOutputPaths.append(del_outdir)
     if blobs:
-        blobs_outdir = r'./output/occlusion/blobs/'
+        blobs_outdir = r'./output/blobs/'
         listOutputPaths.append(blobs_outdir)
     if partialviewing:
-        pv_outdir = r'./output/occlusion/partialviewing/'
+        pv_outdir = r'./output/partialviewing/'
         listOutputPaths.append(pv_outdir)
 
     # create the necessary output folders
