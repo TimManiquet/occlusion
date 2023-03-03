@@ -1,6 +1,8 @@
 # Occlusion of Images
 This repository contains a Python script to apply occlusion to a set of images by adding blobs or occluding part of the image. In particular, it applies occlusion such that only a certain proportion of objects will remain visible. To ensure that proportion is calculated correctly, make sure the input images contain an transparent mask (alpha channel) where the object is delineated from the background.
 
+Images are present as examples in the `input` and `output` folders.
+
 ## Requirements
 - Python 3
 - OpenCV (cv2)
