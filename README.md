@@ -30,9 +30,9 @@ This repository contains a Python script to apply occlusion to a set of images b
 ## Example
 
 ```
-import occlusion as oc
+from scripts.occlusion import occlude
 
-oc.occlude("input_images", easy=10, hard=50, many_small=False, col=255)
+occlude("input_images", easy=10, hard=50, many_small=False, col=255)
 ```
 
 This example applies occlusion to the images in the `input_images` folder, using a low occlusion level of 10%, a high occlusion level of 50%, few large occluders, and a white occluding window. The resulting occluded images will be saved in the `output_images` folder.
