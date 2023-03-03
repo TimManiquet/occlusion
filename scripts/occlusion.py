@@ -85,7 +85,6 @@ def occlude(
     fl_nOccluders_high = 5
     
     # decide on the colors to use, black by default
-    colPartialViewing = col # color of the occluding window (grayscale)
     colBlob = (col, col, col) # color of the occluding blobs
     
     # find the BGR color of the background from the upper left-most pixel
@@ -192,110 +191,114 @@ def occlude(
     # partial viewing
 
     if partialviewing:
-        for size_occl in tqdm({'manysmall', 'fewlarge'}):
-            
-            writePath = pv_outdir + size_occl
-            
-            if (size_occl == 'manysmall') & (many_small):
-                sizeOccluder = ms_sizeOccluder
-                nOccluders_low = ms_nOccluders_low
-                nOccluders_high = ms_nOccluders_high
+            for size_occl in tqdm({'manysmall', 'fewlarge'}):
                 
-            elif (size_occl == 'fewlarge') & (few_large):
-                sizeOccluder = fl_sizeOccluder
-                nOccluders_low = fl_nOccluders_low
-                nOccluders_high = fl_nOccluders_high
-
-            # for i in tqdm(range(len(imagePath))):
-            for i in range(len(imagePath)):
-
-                # get the file
-                file = pathlib.Path(imagePath[i])
-                # read the image
-                im = cv.imread(str(file), -1)
-
-                # creating a mask where the object is located
-                object_mask = np.zeros((im.shape[0], im.shape[1]), np.uint8)
-                object_mask[im[:,:,3]==255] = 255
-                # measuring the pixel size of the object
-                size_object = object_mask[object_mask==255].shape[0]
-
-                # removing transparency in the background and make image 2D
-                im[:,:,3] == 255
-
-                # define the levels based on control or not
-                if control:
-                    levels = ('low', 'high', 'control')
-                else:
-                    levels = ('low', 'high')
+                writePath = pv_outdir + size_occl
                 
-                # operate the occlusion for each level
-                for level in levels:
+                if (size_occl == 'manysmall') & (many_small):
+                    sizeOccluder = ms_sizeOccluder
+                    nOccluders_low = ms_nOccluders_low
+                    nOccluders_high = ms_nOccluders_high
+                    
+                elif (size_occl == 'fewlarge') & (few_large):
+                    sizeOccluder = fl_sizeOccluder
+                    nOccluders_low = fl_nOccluders_low
+                    nOccluders_high = fl_nOccluders_high
 
-                    # create the write path, one for each level
-                    out_dir = writePath + "/{}/".format(level)
-                    if not os.path.exists(out_dir): os.makedirs(out_dir)
-                    # give the number of occluders and proportion of occlusion based on the level
-                    if level == 'high':
-                        nOccluders = nOccluders_low
-                        occlusion_level = occlusion_low
-                    elif (level == 'low') | (level == 'control'):
-                        nOccluders = nOccluders_high
-                        occlusion_level = occlusion_high
+                # for i in tqdm(range(len(imagePath))):
+                for i in range(len(imagePath)):
 
-                    proportion_occluded = 0
+                    # get the file
+                    file = pathlib.Path(imagePath[i])
+                    # read the image
+                    im = cv.imread(str(file), -1)
 
-                    while abs(occlusion_level - proportion_occluded) > 1:
+                    # creating a mask where the object is located
+                    object_mask = np.zeros((im.shape[0], im.shape[1]), np.uint8)
+                    object_mask[im[:,:,3]==255] = 255
+                    # measuring the pixel size of the object
+                    size_object = object_mask[object_mask==255].shape[0]
 
-                        # make a 2D copy of the image
-                        gray = cv.cvtColor(im, cv.COLOR_BGR2GRAY)
+                    # removing transparency in the background and make image 2D
+                    im[:,:,3] == 255
 
-                        # create the coordinates for occluders
-                        points_1 = np.array(randint(0, gray.shape[0], nOccluders))
-                        points_2 = np.array(randint(0, gray.shape[1], nOccluders))
-                        points = np.column_stack((points_1,points_2))
+                    # define the levels based on control or not
+                    if control:
+                        levels = ('low', 'high', 'control')
+                    else:
+                        levels = ('low', 'high')
+                    
+                    # operate the occlusion for each level
+                    for level in levels:
 
-                        # randomly generate the blob radiuses within the determined range
-                        radiuses = randint(sizeOccluder[0], sizeOccluder[1], nOccluders)
+                        # create the write path, one for each level
+                        out_dir = writePath + "/{}/".format(level)
+                        if not os.path.exists(out_dir): os.makedirs(out_dir)
+                        # give the number of occluders and proportion of occlusion based on the level
+                        if level == 'high':
+                            nOccluders = nOccluders_low
+                            occlusion_level = occlusion_low
+                        elif (level == 'low') | (level == 'control'):
+                            nOccluders = nOccluders_high
+                            occlusion_level = occlusion_high
 
-                        # create the initial full mask and set its color
-                        occluder = np.zeros_like(gray)
-                        # setting the color of the mask
-                        occluder[:,:] = colPartialViewing
+                        proportion_occluded = 0
 
-                        # drawing occluders on the image & on their mask
-                        for point, radius in zip(points, radiuses):
-                            cv.circle(occluder, point, radius, (255,255,255), -1)
-                        occluded = cv.bitwise_and(gray, gray, mask = occluder)
+                        while abs(occlusion_level - proportion_occluded) > 1:
 
-                        # create the occluder mask
-                        # occluder_inv = cv.bitwise_not(occluder)
-                        blank = np.ones_like(gray)
-                        blank[:] = 255
-                        occluder_mask = cv.bitwise_and(blank, blank, mask = occluder)
+                            # make a 2D copy of the image
+                            gray = cv.cvtColor(im, cv.COLOR_BGR2GRAY)
 
-                        # calculate the intersection between masks
-                        intersection = cv.bitwise_and(object_mask, occluder_mask) # create the intersection
-                        intersectionSize = intersection[intersection==255].shape[0] # measure the size of intersection
-                        proportion_occluded = ((intersectionSize/size_object)*100)
+                            # create the coordinates for occluders
+                            points_1 = np.array(randint(0, gray.shape[0], nOccluders))
+                            points_2 = np.array(randint(0, gray.shape[1], nOccluders))
+                            points = np.column_stack((points_1,points_2))
 
-                        # write the image only if occlusion is as required
-                        if abs(occlusion_level - proportion_occluded) < 1:
-                            cv.imwrite(out_dir + '{}_partialViewing_{}'.format(size_occl, level) + file.name, occluded)
-                            # print('Object occluded successfully')
-                            if level == 'control':
-                                mask = (cv.imread(str(file), -1))[:,:, 3] == 255
-                                occluded[mask] = im[mask][:, 2]
+                            # randomly generate the blob radiuses within the determined range
+                            radiuses = randint(sizeOccluder[0], sizeOccluder[1], nOccluders)
+
+                            # create the initial full mask and set its color
+                            occluder = np.zeros_like(gray)
+
+                            # drawing occluders on the image & on their mask
+                            for point, radius in zip(points, radiuses):
+                                cv.circle(occluder, point, radius, (255,255,255), -1)
+                            occluded = cv.bitwise_and(gray, gray, mask = occluder)
+                            # turn the occluder into the desired color
+                            occluded[occluder == 0] = col
+                            # np.unique(occluder)
+                            # from matplotlib import pyplot as plt
+                            # plt.imshow(occluded, cmap = 'gray')
+                            # plt.show()
+
+                            # create the occluder mask
+                            # occluder_inv = cv.bitwise_not(occluder)
+                            blank = np.ones_like(gray)
+                            blank[:] = 255
+                            occluder_mask = cv.bitwise_and(blank, blank, mask = occluder)
+
+                            # calculate the intersection between masks
+                            intersection = cv.bitwise_and(object_mask, occluder_mask) # create the intersection
+                            intersectionSize = intersection[intersection==255].shape[0] # measure the size of intersection
+                            proportion_occluded = ((intersectionSize/size_object)*100)
+
+                            # write the image only if occlusion is as required
+                            if abs(occlusion_level - proportion_occluded) < 1:
                                 cv.imwrite(out_dir + '{}_partialViewing_{}'.format(size_occl, level) + file.name, occluded)
-                            break
-                        elif (occlusion_level > proportion_occluded):
-                            nOccluders += 1
-                            # print('Occlusion too low: {} instead of {}.'.format(proportion_occluded, occlusion_level))
-                            continue
-                        elif (occlusion_level < proportion_occluded):
-                            nOccluders -= 1
-                            # print('Occlusion too high: {} instead of {}.'.format(proportion_occluded, occlusion_level))
-                            continue
+                                # print('Object occluded successfully')
+                                if level == 'control':
+                                    mask = (cv.imread(str(file), -1))[:,:, 3] == 255
+                                    occluded[mask] = im[mask][:, 2]
+                                    cv.imwrite(out_dir + '{}_partialViewing_{}'.format(size_occl, level) + file.name, occluded)
+                                break
+                            elif (occlusion_level > proportion_occluded):
+                                nOccluders += 1
+                                # print('Occlusion too low: {} instead of {}.'.format(proportion_occluded, occlusion_level))
+                                continue
+                            elif (occlusion_level < proportion_occluded):
+                                nOccluders -= 1
+                                # print('Occlusion too high: {} instead of {}.'.format(proportion_occluded, occlusion_level))
+                                continue
 
     # blobs
 
