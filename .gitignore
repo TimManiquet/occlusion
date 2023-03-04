@@ -1,0 +1,11 @@
+# Ignore Python files
+*.pyc
+**/__pycache__/
+
+# Ignore macOS non-important files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Ignore Spyder IDE project  files
+.spyproject/
