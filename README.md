@@ -1,7 +1,8 @@
 # Occlusion of Images
-This repository contains a Python script to apply occlusion to a set of images by adding blobs or occluding part of the image. In particular, it applies occlusion such that only a certain proportion of objects will remain visible. To ensure that proportion is calculated correctly, make sure the input images contain an transparent mask (alpha channel) where the object is delineated from the background.
+This repository contains three Python scripts to apply occlusion to a set of images in different ways. The three ways of occluding images are: by adding *blobs* on top of images, by adding a *partial viewing* mask with apertures on top of the images, or by *deleting* parts of the images. Each of these manipulations, occludes objects in the images such that only a _certain proportion_ of them will remain visible.
 
-Images are present as examples in the `input` and `output` folders.
+## Input images
+To ensure that the occluded  proportion is calculated correctly, make sure the input images contain an transparent mask (alpha channel) where the object is delineated from the background. These images should be 4-channel, grayscale images. Example of such images can be found in the `input images` folder.
 
 ## Requirements
 - Python 3
@@ -32,9 +33,15 @@ Images are present as examples in the `input` and `output` folders.
 ## Example
 
 ```
-from scripts.occlusion import occlude
+from scripts.blobs import blobs
+from scripts.partial_viewing import partial_viewing
+from scripts.deletion import deletion
 
-occlude("input_images", easy=10, hard=50, many_small=False, col=255)
+blobs("input_images", easy=10, hard=50, many_small=False, col=255)
+
+deletion("input_images", easy=40, hard=70, many_small=False, col=255)
+
+partial_viewing("input_images", easy=20, hard=50, many_small=False, col=255)
 ```
 
 This example applies occlusion to the images in the `input_images` folder, using a low occlusion level of 10%, a high occlusion level of 50%, few large occluders, and a white occluding window. The resulting occluded images will be saved in the `output_images` folder.
