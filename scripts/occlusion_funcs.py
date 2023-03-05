@@ -370,11 +370,11 @@ def occlude(
     img_dir,
     easy=20,
     hard=60,
-    apply_blobs=True,
-    apply_deletion=True,
-    apply_partialviewing=True,
-    many_small=True,
-    few_large=True,
+    apply_blobs=False,
+    apply_deletion=False,
+    apply_partialviewing=False,
+    many_small=False,
+    few_large=False,
     col=0,
     out_root="./outputs",
     seed=42,
@@ -398,6 +398,14 @@ def occlude(
     Returns:
         None: Saves the occluded images in the output directory.
     """
+    if not (apply_blobs or apply_deletion or apply_partialviewing):
+        raise ValueError("At least one of 'apply_blobs', 'apply_deletion', or 'apply_partialviewing' must be True.")
+    
+    if not (many_small or few_large):
+        raise ValueError("At least one of 'many_small' or 'few_large' must be True.")
+
+    if easy < hard:
+        raise ValueError(f"The percentage of object occluded in the easy condition must be lower than the hard condition {(easy, hard)}.")
 
     # Determine the occlusion sizes to use based on the function arguments
     occl_sizes = [
