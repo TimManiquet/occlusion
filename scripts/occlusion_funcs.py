@@ -24,6 +24,93 @@ FL_SIZE_OCCLUDER = [70, 300]
 FL_NUM_OCCLUDERS_LOW = 5
 FL_NUM_OCCLUDERS_HIGH = 5
 
+def blobs(
+        img_dir,
+        easy=20,
+        hard=60,
+        control=True,
+        many_small=True,
+        few_large=True,
+        col=0,
+        out_root="./outputs",
+        seed=42,
+    ):
+    
+    occlude(
+        img_dir,
+        easy=20,
+        hard=60,
+        control=True,
+        apply_blobs=True,
+        apply_deletion=False,
+        apply_partialviewing=False,
+        many_small=True,
+        few_large=True,
+        col=0,
+        out_root="./outputs",
+        seed=42,
+    )
+
+    return
+
+def deletion(
+        img_dir,
+        easy=20,
+        hard=60,
+        control=True,
+        many_small=True,
+        few_large=True,
+        col=0,
+        out_root="./outputs",
+        seed=42,
+    ):
+    
+    occlude(
+        img_dir,
+        easy=20,
+        hard=60,
+        control=True,
+        apply_blobs=False,
+        apply_deletion=True,
+        apply_partialviewing=False,
+        many_small=True,
+        few_large=True,
+        col=0,
+        out_root="./outputs",
+        seed=42,
+    )
+
+    return
+
+def partial_viewing(
+        img_dir,
+        easy=20,
+        hard=60,
+        control=True,
+        many_small=True,
+        few_large=True,
+        col=0,
+        out_root="./outputs",
+        seed=42,
+    ):
+    
+    occlude(
+        img_dir,
+        easy=20,
+        hard=60,
+        control=True,
+        apply_blobs=False,
+        apply_deletion=False,
+        apply_partialviewing=True,
+        many_small=True,
+        few_large=True,
+        col=0,
+        out_root="./outputs",
+        seed=42,
+    )
+
+    return
+
 
 def get_occluded_ratio(img, occluder_mask):
     """
@@ -84,7 +171,7 @@ def get_manipulation_coordinates(img, n_occluders, size_occluder, seed):
     return points, radii
 
 
-def deletion(img, points, radii, col):
+def deletion_(img, points, radii, col):
     """
     Apply occlusion by deleting part of the image.
 
@@ -103,7 +190,7 @@ def deletion(img, points, radii, col):
     occluder_mask = np.zeros((img.shape[0], img.shape[1]), np.uint8)
 
     for point, radius in zip(points, radii):
-        occluded = cv.circle(img, point, radius, int(col[0]), -1)
+        occluded = cv.circle(img, point, radius, int(col), -1)
         # here I draw the occluder mask
         occluder_mask = cv.circle(
             occluder_mask, point, radius, color=(255, 255, 255), thickness=-1
@@ -112,7 +199,7 @@ def deletion(img, points, radii, col):
     return occluded, occluder_mask
 
 
-def blobs(img, points, radii, col):
+def blobs_(img, points, radii, col):
     """
     Draw circular occluders on an input image and generate a corresponding
     occluder mask.
@@ -133,7 +220,7 @@ def blobs(img, points, radii, col):
 
     # drawing occluders on the image & on their mask
     for point, radius in zip(points, radii):
-        occluded = cv.circle(img, point, radius, col, -1)
+        occluded = cv.circle(img, point, radius, int(col), -1)
         # here I draw the occluder mask
         occluder_mask = cv.circle(
             occluder_mask, point, radius, color=(255, 255, 255), thickness=-1
@@ -142,7 +229,7 @@ def blobs(img, points, radii, col):
     return occluded, occluder_mask
 
 
-def partialviewing(img, points, radii, col):
+def partialviewing_(img, points, radii, col):
     """
     Simulate partially occluded viewing of an input image.
 
@@ -183,7 +270,7 @@ def apply_manipulation(
     level_occluder="high",
     occlusion_level=60,
     manip_func=None,
-    col=(255, 255, 255),
+    col=0,
     seed=42,
 ):
     """
@@ -196,7 +283,7 @@ def apply_manipulation(
         level_occluder (str, optional): The level of occluder density to be used. Either "low", "high", or "control". Defaults to "high".
         occlusion_level (float, optional): The desired percentage of occlusion in the manipulated image. Defaults to 60.
         manip_func (function, optional): The manipulation function to be applied to the images. Defaults to None.
-        col (tuple, optional): The color of the occluders. Defaults to (255, 255, 255).
+        col (tuple, optional): The grayscale color of the occluder. Defaults to 0 (black).
         seed (int, optional): The random seed to be used for selecting occluder positions. Defaults to 42.
 
     Returns:
@@ -283,7 +370,6 @@ def occlude(
     img_dir,
     easy=20,
     hard=60,
-    control=False,
     apply_blobs=True,
     apply_deletion=True,
     apply_partialviewing=True,
@@ -300,7 +386,6 @@ def occlude(
         img_dir (str): The path to the directory containing the images to occlude.
         easy (int, optional): The percentage of the object *occluded* in the low level of occlusion. Defaults to 20.
         hard (int, optional): The percentage of the object *occluded* in the high level of occlusion. Defaults to 60.
-        control (bool, optional): If True, apply occlusion to a control region of the image. Defaults to False.
         apply_blobs (bool, optional): If True, apply occlusion by adding blobs. Defaults to True.
         apply_deletion (bool, optional): If True, apply occlusion by deleting part of the image. Defaults to True.
         apply_partialviewing (bool, optional): If True, apply occlusion by partially viewing the image. Defaults to True.
@@ -324,11 +409,12 @@ def occlude(
 
     # Get a list of all image file paths in the specified directory
     img_paths = glob.glob(os.path.join(img_dir, "*"))
+    img_paths = [img_path for img_path in img_paths if (".png" in img_path) or (".bmp" in img_path) or (".jpg" in img_path)]
     img_paths.sort()
-
-    # Determine the color to use for occlusions
-    color = (col, col, col)
-
+    
+    if len(img_paths) < 1:
+        raise ValueError(f"No supported iamge (png, bmp, jpg) found in {img_dir}")
+        
     # Determine the background color for the deletion function
     color_bg = tuple((cv.imread(img_paths[0], -1))[0, 0, 0:3])
 
@@ -336,28 +422,28 @@ def occlude(
     manipulation_params = {
         "deletion": {
             "levels": ["low", "high"],
-            "color": color_bg,
-            "func": deletion,
+            "color": color_bg[0],
+            "func": deletion_,
         }
         if apply_deletion
         else None,
         "partialviewing": {
             "levels": ["low", "high", "control"],
             "color": col,
-            "func": partialviewing,
+            "func": partialviewing_,
         }
         if apply_partialviewing
         else None,
         "blobs": {
             "levels": ["low", "high", "control"],
-            "color": color,
-            "func": blobs,
+            "color": col,
+            "func": blobs_,
         }
         if apply_blobs
         else None,
     }
 
-    # Iterate over each manipulation function with its corresponding parameters
+    # Iterate over each manipulation with its corresponding parameters
     for manipulation, params in manipulation_params.items():
         if params is None:
             continue
@@ -372,14 +458,17 @@ def occlude(
                     f"STEP: Manipulation: {manipulation}, occlusion size: {occl_size}, level: {level} ...",
                     end="",
                 )
-                apply_manipulation(
-                    img_paths,
-                    out_root,
-                    occl_size,
-                    level,
-                    occlusion_level,
-                    params["func"],
-                    params["color"],
-                    seed=seed,
-                )
-                print("DONE!")
+                try:
+                    apply_manipulation(
+                        img_paths,
+                        out_root,
+                        occl_size,
+                        level,
+                        occlusion_level,
+                        params["func"],
+                        params["color"],
+                        seed=seed,
+                    )
+                    print("DONE!")
+                except:
+                    print("ERROR")
