@@ -1,0 +1,4 @@
+# TODO:
+	- Add notebook with examples
+	- Update README to better match the docstrings in scripts.occlusion_funcs
+	- Update README to include command line usage
