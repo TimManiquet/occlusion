@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Sun Mar  5 03:09:12 2023
-
-@author: costantino_ai
-"""
 
 from scripts.occlusion_funcs import blobs
 from scripts.occlusion_funcs import partial_viewing
