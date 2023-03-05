@@ -28,9 +28,8 @@ def blobs(
         img_dir,
         easy=20,
         hard=60,
-        control=True,
-        many_small=True,
-        few_large=True,
+        many_small=False,
+        few_large=False,
         col=0,
         out_root="./outputs",
         seed=42,
@@ -38,17 +37,16 @@ def blobs(
     
     occlude(
         img_dir,
-        easy=20,
-        hard=60,
-        control=True,
+        easy=easy,
+        hard=hard,
         apply_blobs=True,
         apply_deletion=False,
         apply_partialviewing=False,
-        many_small=True,
-        few_large=True,
-        col=0,
-        out_root="./outputs",
-        seed=42,
+        many_small=many_small,
+        few_large=few_large,
+        col=col,
+        out_root=out_root,
+        seed=seed,
     )
 
     return
@@ -57,9 +55,8 @@ def deletion(
         img_dir,
         easy=20,
         hard=60,
-        control=True,
-        many_small=True,
-        few_large=True,
+        many_small=False,
+        few_large=False,
         col=0,
         out_root="./outputs",
         seed=42,
@@ -67,17 +64,16 @@ def deletion(
     
     occlude(
         img_dir,
-        easy=20,
-        hard=60,
-        control=True,
+        easy=easy,
+        hard=hard,
         apply_blobs=False,
         apply_deletion=True,
         apply_partialviewing=False,
-        many_small=True,
-        few_large=True,
-        col=0,
-        out_root="./outputs",
-        seed=42,
+        many_small=many_small,
+        few_large=few_large,
+        col=col,
+        out_root=out_root,
+        seed=seed,
     )
 
     return
@@ -86,9 +82,8 @@ def partial_viewing(
         img_dir,
         easy=20,
         hard=60,
-        control=True,
-        many_small=True,
-        few_large=True,
+        many_small=False,
+        few_large=False,
         col=0,
         out_root="./outputs",
         seed=42,
@@ -96,17 +91,16 @@ def partial_viewing(
     
     occlude(
         img_dir,
-        easy=20,
-        hard=60,
-        control=True,
+        easy=easy,
+        hard=hard,
         apply_blobs=False,
         apply_deletion=False,
         apply_partialviewing=True,
-        many_small=True,
-        few_large=True,
-        col=0,
-        out_root="./outputs",
-        seed=42,
+        many_small=many_small,
+        few_large=few_large,
+        col=col,
+        out_root=out_root,
+        seed=seed,
     )
 
     return
@@ -144,7 +138,7 @@ def get_occluded_ratio(img, occluder_mask):
     return proportion_occluded
 
 
-def get_manipulation_coordinates(img, n_occluders, size_occluder, seed):
+def get_manipulation_coordinates(img, n_occluders, size_occluder):
     """
     Randomly generate the coordinates and radii for occluders to be applied to an image.
 
@@ -152,14 +146,10 @@ def get_manipulation_coordinates(img, n_occluders, size_occluder, seed):
         img (numpy.ndarray): The input image to which occluders will be applied.
         n_occluders (int): The number of occluders to be applied.
         size_occluder (Tuple[int, int]): The range of sizes for the occluders, given as a tuple (min, max).
-        seed (int): The numpy random seed
 
     Returns:
         Tuple[numpy.ndarray, numpy.ndarray]: A tuple containing two numpy arrays: the (x, y) coordinates of the occluders and their corresponding radii.
     """
-    # Set random seed
-    np.random.seed(seed)
-
     # create the coordinates for occluders
     points_1 = np.array(randint(0, img.shape[0], n_occluders))
     points_2 = np.array(randint(0, img.shape[1], n_occluders))
@@ -229,7 +219,7 @@ def blobs_(img, points, radii, col):
     return occluded, occluder_mask
 
 
-def partialviewing_(img, points, radii, col):
+def partial_viewing_(img, points, radii, col):
     """
     Simulate partially occluded viewing of an input image.
 
@@ -290,9 +280,12 @@ def apply_manipulation(
         None
 
     """
+    # Set random seed
+    np.random.seed(seed)
 
-    # Retrieve manipulation name
+    # Retrieve manipulation name (and remove underscore)
     manip = manip_func.__name__
+    manip = manip[:-1] if manip[-1] == '_' else manip
 
     # create the write path
     out_dir = os.path.join(out_root, manip, size_occluders, level_occluder)
@@ -317,23 +310,24 @@ def apply_manipulation(
         # read the image
         im = cv.imread(str(file), -1)
 
-        # # removing transparency in the background and make image 2D
-        # im[:, :, 3] = 255
-
         # Set the (temp) occluded proportion
         proportion_occluded = 0
 
         # as long as the difference between the required occlusion proportion and the actual occlusion proportion is more than 1%
         while abs(occlusion_level - proportion_occluded) > 1:
-
+            # print(occlusion_level, proportion_occluded)
             # make a 2D copy of the image
             gray = cv.cvtColor(im, cv.COLOR_BGR2GRAY)
 
             # Get manipulations coordinates
             points, radii = get_manipulation_coordinates(
-                gray, n_occluders, occluder_size, seed
+                gray, n_occluders, occluder_size
             )
-
+            
+            if len(radii) < 1:
+                n_occluders += 1
+                continue
+            
             # drawing occluders on the image & on their mask
             occluded, occluder_mask = manip_func(gray, points, radii, col)
 
@@ -363,6 +357,7 @@ def apply_manipulation(
             elif occlusion_level < proportion_occluded:
                 n_occluders -= 1
                 # print('Occlusion too high: {} instead of {}.'.format(proportion_occluded, occlusion_level))
+                continue
     return
 
 
@@ -404,7 +399,7 @@ def occlude(
     if not (many_small or few_large):
         raise ValueError("At least one of 'many_small' or 'few_large' must be True.")
 
-    if easy < hard:
+    if not easy < hard:
         raise ValueError(f"The percentage of object occluded in the easy condition must be lower than the hard condition {(easy, hard)}.")
 
     # Determine the occlusion sizes to use based on the function arguments
@@ -438,7 +433,7 @@ def occlude(
         "partialviewing": {
             "levels": ["low", "high", "control"],
             "color": col,
-            "func": partialviewing_,
+            "func": partial_viewing_,
         }
         if apply_partialviewing
         else None,
@@ -466,17 +461,28 @@ def occlude(
                     f"STEP: Manipulation: {manipulation}, occlusion size: {occl_size}, level: {level} ...",
                     end="",
                 )
-                try:
-                    apply_manipulation(
-                        img_paths,
-                        out_root,
-                        occl_size,
-                        level,
-                        occlusion_level,
-                        params["func"],
-                        params["color"],
-                        seed=seed,
-                    )
-                    print("DONE!")
-                except:
-                    print("ERROR")
+                # try:
+                #     apply_manipulation(
+                #         img_paths,
+                #         out_root,
+                #         occl_size,
+                #         level,
+                #         occlusion_level,
+                #         params["func"],
+                #         params["color"],
+                #         seed=seed,
+                #     )
+                #     print("DONE!")
+                # except Exception as e:
+                #     print("ERROR:", e)
+                apply_manipulation(
+                    img_paths,
+                    out_root,
+                    occl_size,
+                    level,
+                    occlusion_level,
+                    params["func"],
+                    params["color"],
+                    seed=seed,
+                )
+                print("DONE!")

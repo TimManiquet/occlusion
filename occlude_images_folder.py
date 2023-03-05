@@ -34,7 +34,6 @@ if __name__ == '__main__':
         args.img_dir,
         easy=args.easy,
         hard=args.hard,
-        control=args.control,
         apply_blobs=args.apply_blobs,
         apply_deletion=args.apply_deletion,
         apply_partialviewing=args.apply_partialviewing,

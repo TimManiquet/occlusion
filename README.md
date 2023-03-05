@@ -17,7 +17,7 @@ To ensure that the occluded  proportion is calculated correctly, make sure the i
 2. Place the images to occlude in the img_dir folder. 
 3. Run the following in your command line
 
-`python occlude_images_folder.py /path/to/input_images --hard 80 --blobs --out_dir /path/to/outputs`
+`python occlude_images_folder.py /path/to/input_images --hard 80 --apply_blobs --many_small --out_dir /path/to/outputs`
 
 4. The resulting occluded images will be saved in the `out_dir` folder.
 
