@@ -14,34 +14,65 @@ To ensure that the occluded  proportion is calculated correctly, make sure the i
 
 ## Usage
 1. Clone or download this repository.
-2. Place the images to occlude in the input_images folder. 
-3. Run the `occlude` function in the script, specifying the path to the `input_images` folder and the desired parameters for occlusion:
+2. Place the images to occlude in the img_dir folder. 
+3. Run the following in your command line
 
-- `easy`: The percentage of the object occluded in the low level of occlusion. Defaults to 20.
-- `hard`: The percentage of the object occluded in the high level of occlusion. Defaults to 60.
-- `many_small`: If True, apply many small occluders, otherwise apply few large occluders. Defaults to True.
-- `few_large`: If True, apply few large occluders, otherwise apply many small occluders. Defaults to True.
-- `col`: The grayscale color of the occluding window. Defaults to 0 (black).
-- `control`: If True, show the original and occluded images side by side for comparison. Defaults to False.
-- `blobs`: If True, add random blobs as occluders. Defaults to True.
-- `deletion`: If True, occlude part of the image by deleting pixels. Defaults to True.
-- `partialviewing`: If True, occlude part of the image by setting pixels to the occluding color. Defaults to True.
+`python occlude_images_folder.py /path/to/input_images --hard 80 --apply_blobs --many_small --out_dir /path/to/outputs`
 
-4. The resulting occluded images will be saved in the `output` folder.
+4. The resulting occluded images will be saved in the `out_dir` folder.
 
+## Arguments
+
+- `img_dir` (required): Path to the input images directory.
+- `--easy` (optional, default 20): Percentage of easy occlusion to apply.
+- `--hard` (optional, default 60): Percentage of hard occlusion to apply.
+- `--blobs` (optional): Whether to apply blob occlusion.
+- `--deletion` (optional): Whether to apply deletion occlusion.
+- `--partialviewing` (optional): Whether to apply partial viewing occlusion.
+- `--many_small` (optional): Whether to occlude many small areas.
+- `--few_large` (optional): Whether to occlude few large areas.
+- `--col` (optional, default 0): The grayscale color of the occluding window. Defaults to 0 (black).
+- `--out_dir` (optional, default ./outputs): Path to the output directory.
+- `--seed` (optional, default 42): Seed for the random number generator.
+
+## Validation
+
+The script includes validation to ensure that at least one of 'blobs', 'deletion', or 'partialviewing' is set to True, and that at least one of 'many_small' or 'few_large' is set to True. Additionally, the percentage of object occluded in the easy condition must be lower than the hard condition.
+
+If any of these validations fail, the script will raise a `ValueError`.
 
 ## Example
+The program can also be run as a python script as shown below
 
 ```
-from scripts.blobs import blobs
-from scripts.partial_viewing import partial_viewing
-from scripts.deletion import deletion
+from scripts.occlusion_funcs import blobs
+from scripts.occlusion_funcs import partial_viewing
+from scripts.occlusion_funcs import deletion
 
-blobs("input_images", easy=10, hard=50, many_small=False, col=255)
+# If you want to apply only one manipulation type
+blobs(input_dir, easy=10, hard=50, many_small=True, col=255)
 
-deletion("input_images", easy=40, hard=70, many_small=False, col=255)
+deletion(input_dir, easy=40, hard=70, few_large=True, col=255)
 
-partial_viewing("input_images", easy=20, hard=50, many_small=False, col=255)
+partial_viewing(input_dir, easy=20, hard=50, many_small=False, few_large=True, seed=10, out_dir='/outfolder')
+
+# We can also use the more general occlude function that is called in occlude_images_folder.py
+from scripts.occlusion_funcs import occlude
+
+occlude(
+    input_dir,
+    easy=20,
+    hard=60,
+    apply_blobs=True,
+    apply_deletion=True,
+    apply_partialviewing=True,
+    many_small=True,
+    few_large=True,
+    col=0,
+    out_root="./outputs",
+    seed=42,
+)
+
 ```
 
-This example applies occlusion to the images in the `input_images` folder, using a low occlusion level of 10%, a high occlusion level of 50%, few large occluders, and a white occluding window. The resulting occluded images will be saved in the `output_images` folder.
+This example applies different level and types of occlusion to the images in the `input_dir` folder. The resulting occluded images will be saved in the `output_images` folder.
