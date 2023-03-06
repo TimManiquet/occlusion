@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Sat Mar  4 17:47:35 2023
-
-@author: costantino_ai
-"""
 
 import argparse
 from scripts.occlusion_funcs import occlude
