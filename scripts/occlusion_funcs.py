@@ -166,6 +166,7 @@ def get_manipulation_coordinates(img, n_occluders, size_occluder):
 
 def deletion_(img, points, radii, col):
     """
+    This is an internal function and should not be called directly. Call 'deletion' instead.
     Apply occlusion by deleting part of the image.
 
     Args:
@@ -194,6 +195,7 @@ def deletion_(img, points, radii, col):
 
 def blobs_(img, points, radii, col):
     """
+    This is an internal function and should not be called directly. Call 'blobs' instead.
     Draw circular occluders on an input image and generate a corresponding
     occluder mask.
 
@@ -224,6 +226,7 @@ def blobs_(img, points, radii, col):
 
 def partial_viewing_(img, points, radii, col):
     """
+    This is an internal function and should not be called directly. Call 'partial_viewing' instead.
     Simulate partially occluded viewing of an input image.
 
     Args:

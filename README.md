@@ -76,3 +76,9 @@ occlude(
 ```
 
 This example applies different level and types of occlusion to the images in the `input_dir` folder. The resulting occluded images will be saved in the `output_images` folder.
+
+## Installation
+
+To install this package using pip, first ensure that you have Git installed on your system. Then, create a new virtual environment and activate it. Finally, run the following command:
+
+pip install -r https://raw.githubusercontent.com/TimManiquet/occlusion/master/requirements.txt
