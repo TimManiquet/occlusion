@@ -9,3 +9,6 @@
 
 # Ignore Spyder IDE project  files
 .spyproject/
+
+
+*.egg-info

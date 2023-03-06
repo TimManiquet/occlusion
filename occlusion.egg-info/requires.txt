@@ -1,2 +1,0 @@
-dependency1
-dependency2
