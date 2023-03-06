@@ -8,8 +8,8 @@ setup(
     url='https://github.com/TimManiquet/occlusion',
     packages=['occlusion'],
     install_requires=[
-        'opencv_python',
-        'numpy',
+        'opencv-python',
+        'numpy>=1.18.1',
         'setuptools'
     ],
 )
