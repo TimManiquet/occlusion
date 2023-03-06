@@ -1,7 +1,7 @@
 from setuptools import setup
 setup(
     name='occlusion',
-    version='0.1',
+    version='v0.1',
     description='Functions to occlude objects in images.',
     author='Tim Maniquet',
     author_email='timotheemaniquet@gmail.com',
