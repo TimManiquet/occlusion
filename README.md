@@ -1,5 +1,5 @@
 # Occlusion of Images
-This repository contains three Python scripts to apply occlusion to a set of images in different ways. The three ways of occluding images are: by adding *blobs* on top of images, by adding a *partial viewing* mask with apertures on top of the images, or by *deleting* parts of the images. Each of these manipulations, occludes objects in the images such that only a _certain proportion_ of them will remain visible.
+This repository contains three Python scripts to apply occlusion to a set of images in different ways. The three ways of occluding images are: by adding **blobs** on top of images, by adding a **partial viewing** mask with apertures on top of the images, or by **deleting** parts of the images. Each of these manipulations, occludes objects in the images such that only a _certain proportion_ of them will remain visible.
 
 ## Input images
 To ensure that the occluded  proportion is calculated correctly, make sure the input images contain an transparent mask (alpha channel) where the object is delineated from the background. These images should be 4-channel, grayscale images. Example of such images can be found in the `input images` folder.
@@ -10,12 +10,12 @@ To ensure that the occluded  proportion is calculated correctly, make sure the i
 - NumPy
 - pathlib
 - glob
-- tqdm
+- os
 
 ## Usage
 1. Clone or download this repository.
-2. Place the images to occlude in the img_dir folder. 
-3. Run the following in your command line
+2. Place the images to occlude in the `img_dir` folder. 
+3. Run the following in your command line:
 
 `python occlude_images_folder.py /path/to/input_images --hard 80 --apply_blobs --many_small --out_dir /path/to/outputs`
 
@@ -26,9 +26,9 @@ To ensure that the occluded  proportion is calculated correctly, make sure the i
 - `img_dir` (required): Path to the input images directory.
 - `--easy` (optional, default 20): Percentage of easy occlusion to apply.
 - `--hard` (optional, default 60): Percentage of hard occlusion to apply.
-- `--blobs` (optional): Whether to apply blob occlusion.
-- `--deletion` (optional): Whether to apply deletion occlusion.
-- `--partialviewing` (optional): Whether to apply partial viewing occlusion.
+- `--apply_blobs` (optional): Whether to apply blob occlusion.
+- `--apply_deletion` (optional): Whether to apply deletion occlusion.
+- `--apply_partialviewing` (optional): Whether to apply partial viewing occlusion.
 - `--many_small` (optional): Whether to occlude many small areas.
 - `--few_large` (optional): Whether to occlude few large areas.
 - `--col` (optional, default 0): The grayscale color of the occluding window. Defaults to 0 (black).
@@ -37,7 +37,7 @@ To ensure that the occluded  proportion is calculated correctly, make sure the i
 
 ## Validation
 
-The script includes validation to ensure that at least one of 'blobs', 'deletion', or 'partialviewing' is set to True, and that at least one of 'many_small' or 'few_large' is set to True. Additionally, the percentage of object occluded in the easy condition must be lower than the hard condition.
+The script includes validation to ensure that at least one of 'blobs', 'deletion', or 'partialviewing' is set to `True`, and that at least one of 'many_small' or 'few_large' is set to `True`. Additionally, the percentage of object occluded in the easy condition must be lower than the hard condition.
 
 If any of these validations fail, the script will raise a `ValueError`.
 
