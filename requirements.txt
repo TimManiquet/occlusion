@@ -1,4 +1,4 @@
-git+https://github.com/TimManiquet/occlusion@v0.1#egg=occlusion
+# git+https://github.com/TimManiquet/occlusion@v0.1#egg=occlusion
 numpy==1.23.5
 opencv_python==4.7.0.68
 setuptools==65.5.0
