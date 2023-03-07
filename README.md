@@ -81,4 +81,4 @@ This example applies different level and types of occlusion to the images in the
 
 To install this package using pip, first ensure that you have Git installed on your system. Then, create a new virtual environment and activate it. Finally, run the following command:
 
-```pip install -r https://raw.githubusercontent.com/TimManiquet/occlusion/main/requirements.txt```
+```pip install git+https://github.com/TimManiquet/occlusion.git@v0.1```
