@@ -1,4 +1,5 @@
 from setuptools import setup
+
 setup(
     name='occlusion',
     version='v0.1',
@@ -10,6 +11,5 @@ setup(
     install_requires=[
         'opencv-python',
         'numpy',
-        'setuptools'
     ],
 )
