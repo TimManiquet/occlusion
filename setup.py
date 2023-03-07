@@ -22,13 +22,8 @@ VERSION = 'v0.1'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
-    'opencv-python','numpy'
+    'opencv-python','numpy','matplotlib', 'notebook'
 ]
-
-# What packages are optional?
-EXTRAS = {
-    'matplotlib', 'notebook'
-}
 
 # The rest you shouldn't have to touch too much :)
 # ------------------------------------------------
@@ -111,7 +106,6 @@ setup(
     #     'console_scripts': ['mycli=mymodule:cli'],
     # },
     install_requires=REQUIRED,
-    extras_require=EXTRAS,
     include_package_data=True,
     license='MIT',
     classifiers=[
