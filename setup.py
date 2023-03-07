@@ -27,7 +27,7 @@ REQUIRED = [
 
 # What packages are optional?
 EXTRAS = {
-    'matplotlib', 'jupyter-notebook'
+    'matplotlib', 'notebook'
 }
 
 # The rest you shouldn't have to touch too much :)
