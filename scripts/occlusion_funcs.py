@@ -266,8 +266,7 @@ def apply_manipulation(
     level_occluder="high",
     occlusion_level=60,
     manip_func=None,
-    col=0,
-    seed=42,
+    col=0
 ):
     """
     Apply an occlusion manipulation to a set of images and save the results.
@@ -280,14 +279,11 @@ def apply_manipulation(
         occlusion_level (float, optional): The desired percentage of occlusion in the manipulated image. Defaults to 60.
         manip_func (function, optional): The manipulation function to be applied to the images. Defaults to None.
         col (tuple, optional): The grayscale color of the occluder. Defaults to 0 (black).
-        seed (int, optional): The random seed to be used for selecting occluder positions. Defaults to 42.
 
     Returns:
         None
 
     """
-    # Set random seed
-    np.random.seed(seed)
 
     # Retrieve manipulation name (and remove underscore)
     manip = manip_func.__name__
@@ -399,6 +395,9 @@ def occlude(
     Returns:
         None: Saves the occluded images in the output directory.
     """
+    # Set random seed
+    np.random.seed(seed)
+    
     if not (apply_blobs or apply_deletion or apply_partialviewing):
         raise ValueError("At least one of 'apply_blobs', 'apply_deletion', or 'apply_partialviewing' must be True.")
     
@@ -467,28 +466,18 @@ def occlude(
                     f"STEP: Manipulation: {manipulation}, occlusion size: {occl_size}, level: {level} ...",
                     end="",
                 )
-                # try:
-                #     apply_manipulation(
-                #         img_paths,
-                #         out_root,
-                #         occl_size,
-                #         level,
-                #         occlusion_level,
-                #         params["func"],
-                #         params["color"],
-                #         seed=seed,
-                #     )
-                #     print("DONE!")
-                # except Exception as e:
-                #     print("ERROR:", e)
-                apply_manipulation(
-                    img_paths,
-                    out_root,
-                    occl_size,
-                    level,
-                    occlusion_level,
-                    params["func"],
-                    params["color"],
-                    seed=seed,
-                )
-                print("DONE!")
+                try:
+                    apply_manipulation(
+                        img_paths,
+                        out_root,
+                        occl_size,
+                        level,
+                        occlusion_level,
+                        params["func"],
+                        params["color"],
+                        seed=seed,
+                    )
+                    print("DONE!")
+                except Exception as e:
+                    print("ERROR:", e)
+
