@@ -78,6 +78,7 @@ occlude(
 This example applies different level and types of occlusion to the images in the `input_dir` folder. The resulting occluded images will be saved in the `output_images` folder. An example output object from this command is found below:
 
 ![alt text](https://github.com/TimManiquet/occlusion/blob/main/outputs/blobs/fewlarge/control/fewlarge_blobs_control_banana.png)
+<img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/blobs/fewlarge/control/fewlarge_blobs_control_banana.png" alt="Alt text" title="Few large blob occluders">
 
 
 ## Installation
