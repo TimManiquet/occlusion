@@ -9,7 +9,7 @@ setup(
     packages=['occlusion'],
     install_requires=[
         'opencv-python',
-        'numpy>=1.18.1',
+        'numpy',
         'setuptools'
     ],
 )
