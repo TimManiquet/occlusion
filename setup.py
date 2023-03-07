@@ -10,19 +10,7 @@ import sys
 from shutil import rmtree
 
 from setuptools import find_packages, setup, Command
-setup(
 
-
-    description=
-
-
-    url='https://github.com/TimManiquet/occlusion',
-    packages=['occlusion'],
-    install_requires=[
-        'opencv-python',
-        'numpy',
-    ],
-)
 # Package meta-data.
 NAME = 'occlusion'
 DESCRIPTION = 'Functions to occlude objects in images.'
