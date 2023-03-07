@@ -475,7 +475,6 @@ def occlude(
                         occlusion_level,
                         params["func"],
                         params["color"],
-                        seed=seed,
                     )
                     print("DONE!")
                 except Exception as e:
