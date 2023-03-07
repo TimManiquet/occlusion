@@ -300,9 +300,18 @@ def apply_manipulation(
         else (FL_SIZE_OCCLUDER, FL_NUM_OCCLUDERS_LOW, FL_NUM_OCCLUDERS_HIGH)
     )
 
-    n_occluders = (
-        n_occluders_low if level_occluder == "low" else n_occluders_high
-    )
+    if 'partial_viewing' in manip:
+        n_occluders = (
+            n_occluders_high if level_occluder == "low" else n_occluders_low
+        )
+    else:
+        n_occluders = (
+            n_occluders_low if level_occluder == "low" else n_occluders_high
+        )
+    
+    # n_occluders = (
+    #     n_occluders_low if level_occluder == "low" else n_occluders_high
+    # )
 
     # Apply manipulation to all image in img_paths
     for img_path in img_paths:
@@ -460,7 +469,10 @@ def occlude(
             # Iterate over each level of occlusion (low, high)
             for level in params["levels"]:
                 # Determine the percentage of the object to occlude for the given level of occlusion
-                occlusion_level = easy if level == "low" else hard
+                if 'partial_viewing' in params["func"].__name__:
+                    occlusion_level = hard if level == "low" else easy
+                else:
+                    occlusion_level = easy if level == "low" else hard
                 # Apply the manipulation function to each image and save the resulting image
                 print(
                     f"STEP: Manipulation: {manipulation}, occlusion size: {occl_size}, level: {level} ...",
@@ -475,7 +487,6 @@ def occlude(
                         occlusion_level,
                         params["func"],
                         params["color"],
-                        # seed=seed,
                     )
                     print("DONE!")
                 except Exception as e:
