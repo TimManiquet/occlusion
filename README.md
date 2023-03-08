@@ -75,9 +75,15 @@ occlude(
 
 ```
 
-This example applies different level and types of occlusion to the images in the `input_dir` folder. The resulting occluded images will be saved in the `output_images` folder. An example output object from this command is found below:
+This example applies different level and types of occlusion to the images in the `input_dir` folder. The resulting occluded images will be saved in the `output_images` folder. 
 
-<img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/blobs/fewlarge/control/fewlarge_blobs_control_cat.png"  width="425"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/blobs/manysmall/control/manysmall_blobs_control_cat.png" width="425"/> 
+### Outputs
+Below are example output images from different commands.
+```blobs("path/to/cat.png", easy=10, hard=50, many_small=True, col=255)```
+
+<p align="center">
+<img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/blobs/fewlarge/control/fewlarge_blobs_control_cat.png"  width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/blobs/manysmall/low/manysmall_blobs_low_cat.png" width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/blobs/manysmall/high/manysmall_blobs_high_cat.png" width="200"/> 
+</p>
 
 
 
