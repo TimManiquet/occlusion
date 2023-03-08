@@ -89,7 +89,9 @@ Below are example output images from different commands.
 ```deletion("path/to/building.png", easy=40, hard=70, many_small=True, few_large=True)```
 
 <p align="center">
-<img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/deletion/fewlarge/low/fewlarge_deletion_low_building.png"  width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/deletion/fewlarge/high/fewlarge_deletion_high_building.png" width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/deletion/manysmall/low/manysmall_deletion_low_building.png" width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/deletion/manysmall/high/manysmall_deletion_high_building.png" width="200"/>
+<img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/deletion/fewlarge/low/fewlarge_deletion_low_building.png"  width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/deletion/fewlarge/high/fewlarge_deletion_high_building.png" width="200"/>
+    
+    <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/deletion/manysmall/low/manysmall_deletion_low_building.png" width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/deletion/manysmall/high/manysmall_deletion_high_building.png" width="200"/>
 </p>
 
 ```partial_viewing("path/to/bird.png", easy=20, hard=90, many_small=False, few_large=True, seed=10)```
