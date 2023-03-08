@@ -82,16 +82,16 @@ Below are example output images from different commands.
 
 <p align="center">
 
-    ```blobs("path/to/cat.png", easy=10, hard=50, many_small=True, col=255)```
+```blobs("path/to/cat.png", easy=10, hard=50, many_small=True, col=255)```
     
 <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/blobs/manysmall/control/manysmall_blobs_control_cat.png"  width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/blobs/manysmall/low/manysmall_blobs_low_cat.png" width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/blobs/manysmall/high/manysmall_blobs_high_cat.png" width="200"/> 
 </p>
 
 <p align="center">
 
-    ```deletion("path/to/building", easy=40, hard=70, many_small=True, few_large=True)```
+```deletion("path/to/building", easy=40, hard=70, many_small=True, few_large=True)```
     
-<img src="https://github.com/TimManiquet/occlusion/deletion/main/outputs/deletion/fewlarge/low/fewlarge_deletion_low_building.png"  width="200"/> <img src="https://github.com/TimManiquet/occlusion/deletion/main/outputs/deletion/fewlarge/high/fewlarge_deletion_high_building.png" width="200"/> <img src="https://github.com/TimManiquet/occlusion/deletion/main/outputs/deletion/manysmall/low/manysmall_deletion_low_building.png" width="200"/> <img src="https://github.com/TimManiquet/occlusion/deletion/main/outputs/deletion/manysmall/high/manysmall_deletion_high_building.png" width="200"/>
+<img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/deletion/fewlarge/low/fewlarge_deletion_low_building.png"  width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/deletion/fewlarge/high/fewlarge_deletion_high_building.png" width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/deletion/manysmall/low/manysmall_deletion_low_building.png" width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/deletion/manysmall/high/manysmall_deletion_high_building.png" width="200"/>
 </p>
 
 
