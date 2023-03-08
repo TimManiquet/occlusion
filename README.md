@@ -79,9 +79,9 @@ This example applies different level and types of occlusion to the images in the
 
 ### Outputs
 Below are example output images from different commands.
-```blobs("path/to/cat.png", easy=10, hard=50, many_small=True, col=255)```
 
 <p align="center">
+**    ```blobs("path/to/cat.png", easy=10, hard=50, many_small=True, col=255)```**
 <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/blobs/fewlarge/control/fewlarge_blobs_control_cat.png"  width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/blobs/manysmall/low/manysmall_blobs_low_cat.png" width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/blobs/manysmall/high/manysmall_blobs_high_cat.png" width="200"/> 
 </p>
 
