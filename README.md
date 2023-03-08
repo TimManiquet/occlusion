@@ -1,6 +1,13 @@
 # Occlusion of Images
 This repository contains three Python scripts to apply occlusion to a set of images in different ways. The three ways of occluding images are: by adding **blobs** on top of images, by adding a **partial viewing** mask with apertures on top of the images, or by **deleting** parts of the images. Each of these manipulations, occludes objects in the images such that only a _certain proportion_ of them will remain visible.
 
+
+## Installation
+
+Use this package by cloning it (see below) or installing it. To install this package using pip, first ensure that you have Git installed on your system. Then, create a new virtual environment and activate it. Finally, run the following command:
+
+```pip install git+https://github.com/TimManiquet/occlusion.git@v0.1```
+
 ## Input images
 To ensure that the occluded  proportion is calculated correctly, make sure the input images contain an transparent mask (alpha channel) where the object is delineated from the background. These images should be 4-channel, grayscale images. Example of such images can be found in the `input images` folder.
 
@@ -100,10 +107,3 @@ Below are example output images from different commands.
 <p align="center">
 <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/partial_viewing/fewlarge/control/fewlarge_partial_viewing_control_bird.png"  width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/partial_viewing/fewlarge/low/fewlarge_partial_viewing_low_bird.png" width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/partial_viewing/fewlarge/high/fewlarge_partial_viewing_high_bird.png" width="200"/> 
 </p>
-
-
-## Installation
-
-To install this package using pip, first ensure that you have Git installed on your system. Then, create a new virtual environment and activate it. Finally, run the following command:
-
-```pip install git+https://github.com/TimManiquet/occlusion.git@v0.1```
