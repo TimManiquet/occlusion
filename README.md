@@ -96,4 +96,26 @@ occlude(
 
 This example applies different level and types of occlusion to the images in the `input_dir` folder. The resulting occluded images will be saved in the `output_images` folder.This example script can be found in the `data` folder, along with a jupyter notebook showing different manipulations.
 
+## Outputs
+Below are example output images from different commands.
 
+```blobs("path/to/cat.png", easy=10, hard=50, many_small=True, col=255)```
+
+<p align="center">
+<img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/blobs/manysmall/control/manysmall_blobs_control_cat.png"  width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/blobs/manysmall/low/manysmall_blobs_low_cat.png" width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/blobs/manysmall/high/manysmall_blobs_high_cat.png" width="200"/> 
+</p>
+
+```deletion("path/to/building.png", easy=40, hard=70, many_small=True, few_large=True)```
+
+<p align="center">
+<img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/deletion/fewlarge/low/fewlarge_deletion_low_building.png"  width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/deletion/fewlarge/high/fewlarge_deletion_high_building.png" width="200"/>
+</p>
+<p align="center">
+<img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/deletion/manysmall/low/manysmall_deletion_low_building.png" width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/deletion/manysmall/high/manysmall_deletion_high_building.png" width="200"/>
+</p>
+
+```partial_viewing("path/to/bird.png", easy=20, hard=90, many_small=False, few_large=True, seed=10)```
+
+<p align="center">
+<img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/partial_viewing/fewlarge/control/fewlarge_partial_viewing_control_bird.png"  width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/partial_viewing/fewlarge/low/fewlarge_partial_viewing_low_bird.png" width="200"/> <img src="https://github.com/TimManiquet/occlusion/blob/main/outputs/partial_viewing/fewlarge/high/fewlarge_partial_viewing_high_bird.png" width="200"/> 
+</p>
