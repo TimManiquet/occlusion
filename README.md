@@ -3,6 +3,15 @@ This repo was forked from https://github.com/TimManiquet/occlusion
 # Occlusion of Images
 This repository contains three Python scripts to apply occlusion to a set of images in different ways. The three ways of occluding images are: by adding **blobs** on top of images, by adding a **partial viewing** mask with apertures on top of the images, or by **deleting** parts of the images. Each of these manipulations, occludes objects in the images such that only a _certain proportion_ of them will remain visible.
 
+<p align="center" width="100%">
+<img
+   src="https://github.com/HOPLAB-LBP/occlusion/blob/main/data/manipulations.png" 
+   alt="Manipulations example" 
+   align="center"
+   title="Manipulations example"
+   style="display: inline-block; margin: 0 auto; max-width: 300px">
+</p>
+
 ## Input images
 To ensure that the occluded  proportion is calculated correctly, make sure the input images contain an transparent mask (alpha channel) where the object is delineated from the background. These images should be 4-channel, grayscale images. Example of such images can be found in the `input images` folder.
 
@@ -85,10 +94,6 @@ occlude(
 
 ```
 
-This example applies different level and types of occlusion to the images in the `input_dir` folder. The resulting occluded images will be saved in the `output_images` folder. An example output object from this command is found below:
+This example applies different level and types of occlusion to the images in the `input_dir` folder. The resulting occluded images will be saved in the `output_images` folder.This example script can be found in the `data` folder, along with a jupyter notebook showing different manipulations.
 
-<img
-   src="https://github.com/TimManiquet/occlusion/blob/main/outputs/blobs/fewlarge/control/fewlarge_blobs_control_banana.png" 
-   alt="Alt text" 
-   title="Few large blob occluders"
-   style="display: inline-block; margin: 0 auto; max-width: 300px">
+
