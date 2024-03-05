@@ -154,9 +154,9 @@ def get_manipulation_coordinates(img, n_occluders, size_occluder):
         Tuple[numpy.ndarray, numpy.ndarray]: A tuple containing two numpy arrays: the (x, y) coordinates of the occluders and their corresponding radii.
     """
     # create the coordinates for occluders
-    points_1 = np.array(randint(0, img.shape[0], n_occluders))
-    points_2 = np.array(randint(0, img.shape[1], n_occluders))
-    points = np.column_stack((points_1, points_2))
+    points_y = np.array(randint(0, img.shape[0], n_occluders))
+    points_x = np.array(randint(0, img.shape[1], n_occluders))
+    points = np.column_stack((points_x, points_y))
 
     # randomly generate the manipulation radiuses within the determined range
     radii = randint(size_occluder[0], size_occluder[1], n_occluders)
