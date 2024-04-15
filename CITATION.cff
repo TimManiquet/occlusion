@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+title: occlusion
+message: 'If you use this software, please cite is a below.'
+type: software
+authors:
+  - given-names: Tim
+    name-particle: Timothée
+    family-names: Maniquet
+    affiliation: KU Leuven
+    orcid: 'https://orcid.org/0000-0003-0617-9657'
+    email: timotheemaniquet@gmail.com
+  - given-names: Andrea
+    family-names: Ivan Costantino
+    email: andreaivan.costantino@kuleuven.be
+    affiliation: KU Leuven
+    orcid: 'https://orcid.org/0000-0002-8481-3142'
+repository-code: 'https://github.com/TimManiquet/occlusion'
+abstract: >-
+  Python scripts to apply occlusion to a set of images in
+  different ways.
+commit: ' da68410'
+version: v0.1
+date-released: '2023-03-07'
